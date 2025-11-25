@@ -46,8 +46,8 @@ function handleReturn() {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -56,8 +56,8 @@ function handleReturn() {
 
 .legal-info-container {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #E8DCC6; /* Beige/tan background */
   color: #333;
   overflow: hidden;
@@ -82,12 +82,13 @@ function handleReturn() {
 .content {
   position: relative;
   z-index: 1;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding: 1rem;
   display: flex;
-  gap: 17rem;
+  gap: 4rem;
   flex-direction: row;
+  box-sizing: border-box;
 }
 
 .logos-section {
@@ -97,24 +98,23 @@ function handleReturn() {
   gap: 8rem;
   flex-shrink: 0;
   text-align: initial;
-  margin-left: 4rem;
+  margin: 5rem;
 }
 
 .gcc-logo {
-  height: 25rem;
-  width: 25rem;
+  height: auto;
+  width: 15rem;
 }
 
 .main-title {
-  font-size: 9rem;
+  font-size: 4rem;
   font-weight: 900;
-  width: 43.75rem;
+  width: 100%;
   color: #000;
   margin: 0 0 0 0;
   line-height: 0.9;
   letter-spacing: 2px;
-  text-align: left;
-  margin-left: 43px;
+  text-align: center;
 }
 
 .legal-text {
@@ -124,19 +124,19 @@ function handleReturn() {
   flex: 1;
   line-height: 1.6;
   margin-bottom: 0;
-  width: 51rem;
+  width: 100%;
   align-self: center;
-  width: 106rem;
+  width: 100%;
 }
 
 .legal-text p {
   display: flex;
   flex-direction: column;
-  font-size: 2.2rem;
+  font-size: 1rem;
   font-weight: 700;
   flex: 1;
   line-height: 1.6;
-  width: 82rem;
+  width: 100%;
 }
 
 p.map-credit {
@@ -144,26 +144,28 @@ p.map-credit {
   font-weight: 700;
   align-self: center;
   flex-grow: 0;
-  width: 57rem;
-  padding-right: 21.5rem;
+  width: 100%;
+  padding-right: 0;
+  max-width: 100%;
 }
 
 .tulsa-logo-section {
-  margin: 2rem 0;
+  margin: 3rem;
 }
 
 .tulsa-logo {
-  padding-left: 0;
-  height: 11.625rem;
-  width: 26.625rem;
+  height: auto;
+  width: 15rem;
 }
 
 .text-content {
   flex: 1;
+  padding: 5rem;
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80rem;
+  min-width: 0;
   text-align: left;
 }
 
@@ -174,19 +176,20 @@ p.map-credit {
 }
 
 .return-button {
-  background-color: #1B3B22;
-  color: white;
+  font-family: "Figtree";
+  padding: 0rem;
   border: none;
-  font-size: 4rem;
-  font-weight: bold;
-  width: 19.75rem;
-  height: 8.625rem;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s;
-  margin: 4rem 0 0rem auto;
-  padding: 2rem 2rem 2rem 2rem;
+  text-align: center;
   background-color: #1B3B22;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 12rem;
+  height: 4rem;
+  margin: auto;
 }
 
 .return-button:active {
@@ -194,224 +197,4 @@ p.map-credit {
   background-color: #0f2817;
 }
 
-@media (max-width: 2500px) and (max-height: 1400px) {
-  .content {
-    padding: 8rem;
-    gap: 10rem;
-  }
-
-  .main-title {
-    font-size: 9rem;
-    font-weight: 900;
-    width: 43.75rem;
-    color: #000;
-    margin: 2rem 0 0 0;
-    line-height: 0.9;
-    letter-spacing: 2px;
-    text-align: left;
-  }
-
-  .legal-text {
-    width: 94rem;
-  }
-
-  .legal-text p {
-    display: flex;
-    flex-direction: column;
-    font-size: 2.2rem;
-    font-weight: 700;
-    line-height: 1.6;
-    width: 82rem;
-  }
-
-  .logos-section {
-    gap: 8rem;
-  }
-
-  p.map-credit {
-    text-align: center;
-    font-weight: 700;
-    align-self: center;
-  }
-
-  .return-button {
-    width: 19.75rem;
-    height: 8.625rem;
-    margin: 6rem 0 0 auto;
-    padding: 2rem 2rem;
-  }
-}
-
-@media (max-width: 2500px) and (max-height: 1300px) {
-  .content {
-    padding: 8rem;
-    gap: 10rem;
-  }
-
-  .main-title {
-    font-size: 9rem;
-    font-weight: 900;
-    width: 43.75rem;
-    color: #000;
-    margin: 2rem 0 0 0;
-    line-height: 0.9;
-    letter-spacing: 2px;
-    text-align: left;
-  }
-
-  .legal-text {
-    width: 94rem;
-  }
-
-  .legal-text p {
-    display: flex;
-    flex-direction: column;
-    font-size: 2.2rem;
-    font-weight: 700;
-    line-height: 1.6;
-    width: 82rem;
-  }
-
-  .logos-section {
-    gap: 8rem;
-  }
-
-  p.map-credit {
-    text-align: center;
-    font-weight: 700;
-    align-self: center;
-  }
-
-  .return-button {
-    width: 19.75rem;
-    height: 8.625rem;
-    margin: 0 0 0 auto;
-    padding: 2rem 2rem;
-  }
-}
-
-@media screen and (max-width: 1930px) and (max-height: 1090px) {
-  .content {
-      gap: 10rem;
-      margin-top: 10rem;
-  }
-
-  .main-title {
-      font-size: 8rem;
-      font-weight: 700;
-      width: 43.75rem;
-      margin: 0rem 0 0;
-  }
-
-  .text-content {
-      text-align: left;
-  }
-
-  .logos-section {
-      margin-left: 10rem;
-      gap: 6rem;
-      padding-top: 6rem;
-  }
-
-  .legal-text p {
-      display: flex;
-      flex-direction: column;
-      font-size: 1.9rem;
-      font-weight: 500;
-      flex-grow: 0;
-      line-height: 1.1;
-      width: 69rem;
-      margin-top: 3rem;
-  }
-
-  .legal-text {
-      width: 73rem;
-  }
-
-  p.map-credit {
-      width: 47.7rem;
-      padding-right: 5rem;
-      padding-bottom: 0rem;
-  }
-
-  .return-button {
-      width: 19.75rem;
-      height: 8.625rem;
-      margin: 4.5rem 4.5rem 0 auto;
-      padding: 2rem;
-  }
-}
-/* 
-@media (max-width: 1600px) and (max-height:900px) {
-  .content {
-    padding: 3rem 3rem 3rem 0rem;
-    gap: 8rem;
-  }
-
-  .main-title {
-    margin: 2rem 0 2rem 0;
-  }
-
-  .return-button {
-    margin: 1rem 14px 0 auto;
-  }
-  .logos-section {
-    gap: 6rem;
-  }
-  .return-button {
-    width: 15.5534rem;
-    height: 6.6127rem;
-    margin: 2rem 0 0 auto;
-    padding: 1rem 1rem;
-  }
-}
-
-@media (max-width: 1600px) and (max-height:700px) {
-  .main-title {
-    margin: 0 0 0 0;
-  }
-
-  .logos-section {
-    gap: 4rem;
-  }
-
-  .legal-text {
-    margin-bottom: 0;
-  }
-
-  .return-button {
-    width: 15.5534rem;
-    height: 6.6127rem;
-    margin: 0 0 0 auto;
-    padding: 1rem 1rem;
-  }
-}
-
-@media (max-width: 1400px) and (max-height: 1300px) {
-  .content {
-    padding: 3rem 3rem 3rem 0rem;
-  }
-
-  .main-title {
-    margin: 8rem 0 2rem 0;
-  }
-
-  .return-button {
-    margin: 9rem 14px 0 auto;
-  }
-  .logos-section {
-    gap: 6rem;
-  }
-
-}
-
-@media (max-width: 1400px) and (max-height: 1100px) {
-  .main-title {
-    margin: 6rem 0 2rem 0;
-  }
-
-  .return-button {
-    margin: 6rem 0 0 auto;
-  }
-} */
 </style>
