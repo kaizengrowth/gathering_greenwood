@@ -103,7 +103,9 @@ import DetailDrawer from '../Utility/DetailDrawer.vue';
 
     const filterParts = ['all'];
 
-    if (hasYear && !YearExemptLayers.includes(props.layerId)) {
+    const isYearExempt = YearExemptLayers.includes(props.layerId);
+
+    if (hasYear && !isYearExempt) {
       filterParts.push(['==', ['get', 'year'], props.filterYear === "" ? "" : Number.parseInt(props.filterYear)]);
     }
 
@@ -112,6 +114,13 @@ import DetailDrawer from '../Utility/DetailDrawer.vue';
     }
 
     const filter = filterParts;
+
+    console.log(`🗺️ Layer ${props.layerId}:`, {
+      filterYear: props.filterYear,
+      isYearExempt,
+      hasYearFilter: hasYear && !isYearExempt,
+      filter: JSON.stringify(filter)
+    });
 
     return {
       id: props.layerId,

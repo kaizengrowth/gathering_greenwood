@@ -95,15 +95,18 @@
   });
 
   function yearChanged(newYear) {
+    console.log('📅 Year changed to:', newYear);
     if (!results.value.isEmpty()) {
       if (newYear !== '') {
         filteredJson.value = (JsonResponse.value.results).filterByYear(newYear);
         results.value = filteredJson.value;
         count.value = filteredJson.value.count.filter((count)=> count.year === newYear)[0];
+        console.log('  Filtered sidebar results for year', newYear, ':', results.value.buildings?.length || 0, 'buildings');
       } else {
         results.value = JsonResponse.value.results;
         count.value = JsonResponse.value.results.TotalCount();
       }
+      console.log('  GeoJSON still has:', geojson.value?.data?.features?.length || 0, 'features (unchanged by year filter)');
     }
   }
 
@@ -127,6 +130,12 @@
 
       resultsData.value = await resultsRes.json();
       geoData.value = await geoJsonRes.json();
+
+      console.log('📥 Search API responses:', {
+        buildings: resultsData.value.results?.buildings?.length || 0,
+        firstBuildingYear: resultsData.value.results?.buildings?.[0]?.year,
+        allBuildingYears: [...new Set((resultsData.value.results?.buildings || []).map(b => b.year))]
+      });
 
       ResultsJson.fromJson((response) => {
         if (response.status === Status.Success) {

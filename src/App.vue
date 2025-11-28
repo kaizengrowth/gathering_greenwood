@@ -255,7 +255,8 @@
       setTimeout(() => {
         if (mglMapRef.value && mbMap.value) {
           mbMap.value.resize();
-          resetMap();
+          // Don't reset the map during search - it clears search results!
+          // resetMap();
         }
       }, 300);
       //clearResults();
@@ -282,7 +283,9 @@
   }
 
   function updateYear(newYear) {
+    console.log('📆 App.updateYear called with:', newYear, '(type:', typeof newYear, ')');
     appYear.value = newYear;
+    console.log('  Set appYear.value to:', appYear.value);
     if (resultsPaneRef && resultsPaneRef.value) {
       resultsPaneRef.value.yearChanged(newYear);
     }
