@@ -61,6 +61,6 @@
   bottom: -2rem;
   border-top-left-radius: 10px;
   background-color: var(--gcc-dk-green);
-  z-index: 10000;
+  z-index: 1;
 }
 </style>

@@ -87,8 +87,8 @@ function handleReturn() {
 
         <!-- Description -->
         <div class="description">
-          <p>Your feedback can help us further improve this resource for the community.
-          Please provide your name and number below, and we'll<br>reach out via text message!</p>
+          <p>Your feedback can help us further improve this resource for the community.</p>
+          <p>Please provide your name and number below, and we'll reach out via text message!</p>
         </div>
 
         <!-- Form -->
@@ -178,9 +178,9 @@ function handleReturn() {
   height: 100%;
   background-color: #E8DCC6; /* Beige/tan background */
   color: #333;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
 }
 
@@ -200,9 +200,9 @@ function handleReturn() {
 .content {
   position: relative;
   z-index: 1;
-  max-width: 1800px;
-  width: 42.91rem;
-  padding: 1rem 18.25rem 18.25rem 18.25rem;
+  max-width: 800px;
+  width: 100%;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -210,15 +210,13 @@ function handleReturn() {
 }
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .script-text {
-  width: 64.125rem;
-  height: 15.625rem;
-  position: fixed;
-  left: 10.8125rem;
-  top: 5rem;
+  max-width: 500px;
+  width: 100%;
+  height: auto;
 }
 
 .main-title {
@@ -231,21 +229,19 @@ function handleReturn() {
 }
 
 .description {
-  margin-bottom: 2rem;
-  margin-left: 8rem;
-  width: 63.75rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .description p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #333;
-  margin: 0.2rem 0;
-  line-height: 1.4;
+  margin: 0.5rem 0;
+  line-height: 1.5;
 }
 
 .feedback-form {
-  width: 50rem;
-  max-width: 1800px;
+  width: 100%;
 }
 
 .form-group {
@@ -256,27 +252,25 @@ function handleReturn() {
 }
 
 .form-group label {
-  font-size: 1.7rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #333;
   min-width: 120px;
-  text-align: right;
+  text-align: left;
 }
 
 .form-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  width: 35rem;
-  height: 1.9rem;
-  font-size: 1.1rem;
-  border: 3px solid #1B3B22;
+  font-size: 1rem;
+  border: 2px solid #1B3B22;
   border-radius: 4px;
   background-color: #f8f8f8;
   color: #333;
 }
 
 .phone-input {
-  max-width: 200px;
+  max-width: 250px;
 }
 
 .form-input:focus {
@@ -286,8 +280,6 @@ function handleReturn() {
 }
 
 .privacy-notice {
-  margin: 2rem 0;
-  width: 87.5rem;
   text-align: left;
 }
 
@@ -301,31 +293,30 @@ function handleReturn() {
 
 .button-container {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 1rem;
   justify-content: center;
   margin-top: 2rem;
-  width: 104.375rem;
+  width: 100%;
 }
 
 .action-button-container {
   display: flex;
-  gap: 10rem;
+  gap: 1rem;
   justify-content: center;
-  align-content: space-evenly;
-  margin-top: 2rem;
-  width: 104.375rem;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
 .action-button {
-  padding: 3rem 4rem;
-  font-size: 3rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
-  min-width: 19rem;
+  width: 12rem;
+  height: 4rem;
 }
 
 button.action-button.clear-button:disabled,
@@ -351,15 +342,15 @@ input.form-input:disabled {
 }
 
 .return-button {
-  padding: 2rem 3.5rem;
-  font-size: 2.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
-  min-width: 20rem;
-  margin-top: 3rem;
+  width: 12rem;
+  height: 4rem;
 }
 
 .clear-button,
@@ -378,197 +369,4 @@ input.form-input:disabled {
   background-color: #0f2817;
 }
 
-  @media (max-width: 2500px) and (max-height: 1400px) {
-    .script-text {
-      top: 1rem;
-    }
-    .content {
-      padding: 18.25rem;
-    }
-  }
-
-  @media screen and (max-width: 1930px) and (max-height: 1090px) {
-    .script-text {
-        left: 11rem;
-    }
-
-    form > div:nth-child(1) {
-        gap: 2.1rem;
-    }
-
-    form > div:nth-child(2) {
-        gap: 2.4rem;
-    }
-
-    form > div:nth-child(3){
-        gap: 1rem;
-    }
-
-    .header {
-        margin-bottom: 13rem;
-    }
-
-    .description p {
-        text-align: left;
-        font-size: 1.775rem;
-        width: 63.125rem;
-    }
-
-    .privacy-notice p {
-        font-size: 1.4rem;
-    }
-
-    .action-button-container {
-        gap: 2rem;
-    }
-
-    .action-button-container .action-button {
-        width: 24.3125rem;
-    }
-
-    .return-button {
-        width: 19.6875rem;
-        min-width: 15rem;
-        height: 8.5625rem;
-        font-size: 3.5rem;
-        margin-top: 3rem;
-    }
-  }
-/* 
-  @media (max-width: 1600px) and (max-height:900px) {
-    .script-text {
-      left: 4rem;
-      width: 48.0938rem;
-      height: 11.7188rem;
-    }
-
-    .content {
-      padding: 32rem 18.25rem 18.25rem 10rem;
-    }
-
-    .description {
-      width: 63.75rem;
-    }
-
-    .description p {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin: 0 0;
-      line-height: 1.2;
-    }
-
-    .action-button-container {
-      gap: 2rem;
-      width: 40rem;
-    }
-
-    .action-button {
-      padding: 2rem 2.5rem;
-      font-size: 2rem;
-      min-width: 10rem;
-      margin-bottom: 5rem;
-    }
-
-    .return-button {
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      min-width: 5rem;
-      margin-top: 5rem;
-    }
-  }
-
-  @media (max-width: 1600px) and (max-height:700px) {
-    .script-text {
-      left: 5rem;
-      width: 40rem;
-      height: 9rem;
-    }
-
-    .content {
-      padding: 38rem 18.25rem 18.25rem 10rem;
-    }
-
-    .description {
-      width: 63.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .description p {
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    .action-button-container {
-      gap: 2rem;
-      width: 40rem;
-      padding-bottom: 4rem;
-    }
-
-    .action-button {
-      padding: 2rem 2.5rem 1.5rem 2.5rem;
-      font-size: 2.5rem;
-      min-width: 10rem;
-      margin-bottom: 10rem;
-    }
-
-    .return-button {
-      padding: 1.5rem 2rem;
-      font-size: 1.5rem;
-      min-width: 5rem;
-      margin-top: 3rem;
-    }
-
-    .privacy-notice {
-      margin: 0;
-    }
-
-    .privacy-notice p {
-      margin: 0;
-    }
-
-    .button-container {
-      margin-top: 0;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-  }
-  @media (max-width: 1400px) and (max-height: 1300px) {
-    .script-text {
-      left: 3rem;
-    }
-    .description p {
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
-
-    .content {
-      padding: 20rem 18.25rem 18.25rem 10rem;
-    }
-
-    .button-container {
-      margin-top: 0.5rem;
-      width: 70rem;
-    }
-
-    .action-button-container {
-      gap: 1.5rem;
-      padding-bottom: 0;
-    }
-
-    .return-button {
-      padding: 1.5rem 2rem 1.5rem 2rem;
-      font-size: 2rem;
-      min-width: 5rem;
-      margin-top: 3.5rem;
-    }
-  }
-
-  @media (max-width: 1400px) and (max-height: 1100px) {
-    .content {
-      padding: 25rem 18.25rem 18.25rem 10rem;
-    }
-
-  } */
 </style>
