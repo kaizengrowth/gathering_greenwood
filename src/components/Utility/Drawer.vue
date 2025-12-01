@@ -177,8 +177,8 @@ watch(isOpen, (newValue) => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem 1.5rem;
-  min-height: 60px;
+  padding: 0.75rem 1rem;
+  min-height: 50px;
   border-bottom: 1px solid #e5e7eb;
   background-color: white;
   position: sticky;
@@ -200,26 +200,26 @@ watch(isOpen, (newValue) => {
 .drawer__close {
   background: var(--gcc-dk-green);
   border: none;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.65rem;
   cursor: pointer;
   color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   transition: all 0.2s ease;
   margin-left: auto;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.5rem;
-  min-height: 2.5rem;
+  min-width: 2rem;
+  min-height: 2rem;
 }
 
 .drawer__close:hover {
   background-color: var(--gcc-orange);
   color: white;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* Content */
@@ -315,15 +315,22 @@ watch(isOpen, (newValue) => {
   }
 
   .drawer__content {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
   .drawer__header {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
   .drawer__footer {
-    padding: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .drawer__close {
+    font-size: 0.9rem;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    padding: 0.4rem 0.5rem;
   }
 }
 </style>
