@@ -369,18 +369,16 @@
     await getStreets();
     await getBurnedArea();
 
-    // Add click handler to close search results when clicking on map background
+    // Add click handler to close detail drawers and reset map when clicking on map background
     mbMap.value.on('click', (e) => {
-      if (!showResults.value) return;
-
-      // Check if we clicked on our interactive layers (POIs, search results)
+      // Check if we clicked on any interactive layers (POIs, search results, building footprints)
       // Only query layers that actually exist to avoid console warnings
-      const layersToCheck = ['poi-layer', 'search-layer'].filter(layerId =>
+      const layersToCheck = ['poi-layer', 'search-layer', 'poi-footprints-layer', '1920-building-layer'].filter(layerId =>
         mbMap.value.getLayer(layerId)
       );
 
+      // If no interactive layers exist, nothing to do
       if (layersToCheck.length === 0) {
-        handleDetailDrawerClose();
         return;
       }
 
@@ -388,7 +386,7 @@
         layers: layersToCheck
       });
 
-      // Only close search results if clicking on empty map (not on POI/search markers)
+      // If clicking on empty map (not on any markers/buildings), close drawers and zoom out
       if (features.length === 0) {
         handleDetailDrawerClose();
       }
@@ -413,12 +411,12 @@
       console.log('Fetching full building data for POI:', properties.building_id);
       try {
         const response = await fetch(`${backendHost}/api/search?search=${encodeURIComponent(properties.name || '')}`);
-        
+
         if (!response.ok) {
           console.error('API request failed:', response.status, response.statusText);
           throw new Error(`API returned ${response.status}`);
         }
-        
+
         const data = await response.json();
 
         // Find the building in the response (GeoJSON format)
@@ -784,6 +782,7 @@
       :map="mbMap"
       :featureFormatter="formatFeature"
       :searchTerm="searchTerm"
+      @drawer-closed="handleDetailDrawerClose">
     </DynamicGeoJsonLayer>
     <DynamicGeoJsonLayer
       v-if="poiFootprintsGeoJSON && poiFootprintsGeoJSON.data && poiFootprintsGeoJSON.data.features && poiFootprintsGeoJSON.data.features.length > 0"
@@ -796,7 +795,7 @@
       :filterYear="appYear"
       :map="mbMap"
       :featureFormatter="formatFeature"
-      @drawer-closed="clearHighlight">
+      @drawer-closed="handleDetailDrawerClose">
     </DynamicGeoJsonLayer>
     <DynamicGeoJsonLayer
       v-if="street1920GeoJSON && street1920GeoJSON.data && street1920GeoJSON.data.features && street1920GeoJSON.data.features.length > 0"
@@ -810,6 +809,7 @@
       :map="mbMap"
       :featureFormatter="formatFeature"
       :searchTerm="searchTerm"
+      @drawer-closed="handleDetailDrawerClose">
     </DynamicGeoJsonLayer>
     <DynamicGeoJsonLayer
       v-if="burnedAreaGeoJSON && burnedAreaGeoJSON.data && burnedAreaGeoJSON.data.features && burnedAreaGeoJSON.data.features.length > 0"
@@ -823,6 +823,7 @@
       :map="mbMap"
       :featureFormatter="formatFeature"
       :searchTerm="searchTerm"
+      @drawer-closed="handleDetailDrawerClose">
     </DynamicGeoJsonLayer>
     <!-- <DynamicGeoJsonLayer
       v-if="census1920GeoJson && census1920GeoJson.data && census1920GeoJson.data.features && census1920GeoJson.data.features.length > 0"
