@@ -178,9 +178,32 @@ const popupProps = ref(null);
       props.featureFormatter = (feature) => feature;
     }
     clickedfeature.value = props.featureFormatter(e.features[0]);
+    
+    // Get center coordinates based on geometry type
+    const geomType = clickedfeature.value.geometry?.type;
+    const coords = clickedfeature.value.geometry?.coordinates;
+    let centerCoords;
+
+    if (geomType === 'Point' && Array.isArray(coords) && coords.length === 2) {
+      // Point geometry - use coordinates directly
+      centerCoords = coords;
+    } else if (geomType === 'Polygon' && Array.isArray(coords) && coords[0] && coords[0][0]) {
+      // Polygon geometry - calculate centroid
+      const points = coords[0]; // Get outer ring
+      let sumLng = 0, sumLat = 0;
+      for (const point of points) {
+        sumLng += point[0];
+        sumLat += point[1];
+      }
+      centerCoords = [sumLng / points.length, sumLat / points.length];
+    } else {
+      console.warn('Unknown geometry type or invalid coordinates:', geomType);
+      return;
+    }
+
     props.map.flyTo({
-      center: clickedfeature.value.geometry.coordinates,
-      zoom: 16,
+      center: centerCoords,
+      zoom: geomType === 'Polygon' ? 18 : 16,
       speed: 1.2,
       curve: 1.5,
       easing: (t) => t
