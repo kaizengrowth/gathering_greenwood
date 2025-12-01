@@ -394,32 +394,47 @@
 
   async function formatFeature(feature) {
     let properties = formatProperties(feature.properties, feature.source);
-    
+
     // If this is a POI footprint with only building_id, fetch full building data
     if (properties.building_id && properties.is_poi && !properties.address) {
       try {
         const response = await fetch(`${backendHost}/api/search?search=${encodeURIComponent(properties.name || '')}`);
         const data = await response.json();
-        
-        // Find the building in the response
+
+        // Find the building in the response (GeoJSON format)
         if (data.features && data.features.length > 0) {
-          const building = data.features.find(f => 
-            f.properties.id === properties.building_id || 
-            f.properties.location_id === properties.building_id
+          const building = data.features.find(f =>
+            f.properties.id === properties.building_id
           );
-          
-          if (building) {
-            // Merge the full building data with the footprint data
-            properties = { ...building.properties, ...properties };
+
+          if (building && building.properties) {
+            // Merge building properties, keeping POI-specific props
+            const buildingProps = building.properties;
+            properties = {
+              ...properties,
+              id: buildingProps.id,
+              name: buildingProps.name || properties.name,
+              address: buildingProps.address,
+              year: buildingProps.year,
+              latitude: buildingProps.latitude,
+              longitude: buildingProps.longitude,
+              building_types: buildingProps.building_types,
+              confidence_score: buildingProps.confidence_score,
+              type: buildingProps.type || 'building'
+            };
+            console.log('Loaded building data for POI:', properties.name, 'Address:', properties.address);
           }
         }
       } catch (error) {
-        console.warn('Failed to fetch building details for POI:', error);
+        console.error('Failed to fetch building details for POI:', error);
       }
     }
-    
+
     return {
       id: feature.id || feature.properties.id || feature.properties.location_id || properties.building_id,
+      name: properties.name,
+      address: properties.address,
+      year: properties.year,
       source: feature.source,
       layer: feature.layer,
       type: feature.type,
