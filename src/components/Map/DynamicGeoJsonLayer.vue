@@ -177,7 +177,17 @@ const popupProps = ref(null);
       console.warn('featureFormatter is not a valid function, using default formatter.');
       props.featureFormatter = (feature) => feature;
     }
-    clickedfeature.value = await props.featureFormatter(e.features[0]);
+    // Wait for feature to be fully formatted (includes API calls for POI details)
+    const formattedFeature = await props.featureFormatter(e.features[0]);
+
+    // Verify we have valid data before proceeding
+    if (!formattedFeature || !formattedFeature.properties) {
+      console.warn('Feature formatter returned invalid data - skipping drawer open');
+      return;
+    }
+
+    // Only set clickedfeature if we have complete, valid data
+    clickedfeature.value = formattedFeature;
 
     // Get center coordinates based on geometry type
     const geomType = clickedfeature.value.geometry?.type;
@@ -201,6 +211,7 @@ const popupProps = ref(null);
       return;
     }
 
+    // Fly to location first
     props.map.flyTo({
       center: centerCoords,
       zoom: geomType === 'Polygon' ? 18 : 16,
@@ -208,18 +219,16 @@ const popupProps = ref(null);
       curve: 1.5,
       easing: (t) => t
     });
-    // var open = detailRef.value?.openDialog;
-    var open = showDetails;
 
-    // new MglPopup({
-    //   closeButton: true,
-    //   closeOnClick: false,
-    //   coordinates: clickedfeature.value.geometry.coordinates,
-    //   anchor: 'top',
-    //   offset: [0, -20],
-
-    // })
-    await utils.delayedAction(open, 1300); // Open dialog with a delay
+    // Wait for map animation to complete AND ensure data is ready
+    await utils.delayedAction(() => {
+      // Double-check data is still valid before opening
+      if (clickedfeature.value && clickedfeature.value.properties) {
+        showDetails();
+      } else {
+        console.warn('Clicked feature data lost before drawer opened');
+      }
+    }, 1300);
   }
 
   function openPopup()

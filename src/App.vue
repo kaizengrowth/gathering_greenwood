@@ -410,8 +410,15 @@
 
     // If this is a POI footprint with only building_id, fetch full building data
     if (properties.building_id && properties.is_poi && !properties.address) {
+      console.log('Fetching full building data for POI:', properties.building_id);
       try {
         const response = await fetch(`${backendHost}/api/search?search=${encodeURIComponent(properties.name || '')}`);
+        
+        if (!response.ok) {
+          console.error('API request failed:', response.status, response.statusText);
+          throw new Error(`API returned ${response.status}`);
+        }
+        
         const data = await response.json();
 
         // Find the building in the response (GeoJSON format)
@@ -433,17 +440,30 @@
               longitude: buildingProps.longitude,
               building_types: buildingProps.building_types,
               confidence_score: buildingProps.confidence_score,
+              people: buildingProps.people || [],
+              census_records: buildingProps.census_records || [],
+              rich_description: buildingProps.rich_description,
+              rich_description_name: buildingProps.rich_description_name,
+              photo: buildingProps.photo,
+              location: buildingProps.location,
+              confidence_reasons: buildingProps.confidence_reasons || [],
               type: buildingProps.type || 'building'
             };
-            console.log('Loaded building data for POI:', properties.name, 'Address:', properties.address);
+            console.log('✅ Successfully loaded building data for POI:', properties.name);
+          } else {
+            console.warn('Building not found in API response for ID:', properties.building_id);
           }
+        } else {
+          console.warn('API returned no features for POI search');
         }
       } catch (error) {
-        console.error('Failed to fetch building details for POI:', error);
+        console.error('❌ Failed to fetch building details for POI:', error);
+        toast.error(`Failed to load details for ${properties.name || 'this building'}`);
+        return null; // Return null to prevent showing blank drawer
       }
     }
 
-    return {
+    const formattedFeature = {
       id: feature.id || feature.properties.id || feature.properties.location_id || properties.building_id,
       name: properties.name,
       address: properties.address,
@@ -453,7 +473,15 @@
       type: feature.type,
       geometry: feature.geometry,
       properties: properties,
+    };
+
+    // Ensure we have minimum required data before returning
+    if (!formattedFeature.properties || (!formattedFeature.name && !formattedFeature.address)) {
+      console.warn('Formatted feature missing required data:', formattedFeature);
+      return null;
     }
+
+    return formattedFeature;
   }
 
   function formatProperties(properties, source) {
