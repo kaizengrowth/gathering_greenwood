@@ -528,14 +528,38 @@
 
   function focusFeature(feature) {
     if (!feature || !mbMap.value) return;
-    
+
     // Highlight building if it has an ID
-    if (feature.properties?.id || feature.id) {
-      highlightBuilding(feature.properties?.id || feature.id);
+    if (feature.properties?.id || feature.id || feature.properties?.building_id) {
+      const buildingId = feature.properties?.id || feature.id || feature.properties?.building_id;
+      highlightBuilding(buildingId);
     }
-    
+
+    const geomType = feature.geometry?.type;
     const coords = feature.geometry?.coordinates;
-    if (Array.isArray(coords) && coords.length === 2) {
+
+    // Handle Point geometry (POI markers, search results)
+    if (geomType === 'Point' && Array.isArray(coords) && coords.length === 2) {
+      const numericCoords = coords.map((c) => Number(c));
+      if (numericCoords.every((c) => Number.isFinite(c))) {
+        mbMap.value.flyTo({ center: numericCoords, zoom: 17 });
+      }
+    }
+    // Handle Polygon geometry (building footprints)
+    else if (geomType === 'Polygon' && Array.isArray(coords) && coords[0] && coords[0][0]) {
+      // Calculate centroid of polygon
+      const points = coords[0]; // Get outer ring
+      let sumLng = 0, sumLat = 0;
+      for (const point of points) {
+        sumLng += point[0];
+        sumLat += point[1];
+      }
+      const centerLng = sumLng / points.length;
+      const centerLat = sumLat / points.length;
+      mbMap.value.flyTo({ center: [centerLng, centerLat], zoom: 18 });
+    }
+    // Fallback: try to use coordinates directly if they look valid
+    else if (Array.isArray(coords) && coords.length === 2 && typeof coords[0] === 'number') {
       const numericCoords = coords.map((c) => Number(c));
       if (numericCoords.every((c) => Number.isFinite(c))) {
         mbMap.value.flyTo({ center: numericCoords, zoom: 17 });
