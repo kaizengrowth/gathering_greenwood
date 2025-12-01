@@ -570,13 +570,14 @@
         ...poiNames
       ]);
     })
-    .then(() => {
-      utils.delayedAction(() => {
-        if (poiLayerRef.value && typeof poiLayerRef.value.fitMapToMarkers === 'function') {
-          poiLayerRef.value.fitMapToMarkers();
-        }
-      }, 1000);
-    })
+    // Removed auto-zoom to POI markers on load - map should stay at initial bounds
+    // .then(() => {
+    //   utils.delayedAction(() => {
+    //     if (poiLayerRef.value && typeof poiLayerRef.value.fitMapToMarkers === 'function') {
+    //       poiLayerRef.value.fitMapToMarkers();
+    //     }
+    //   }, 1000);
+    // })
   };
 
   async function getBuildings() {
