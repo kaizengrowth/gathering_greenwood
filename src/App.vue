@@ -361,7 +361,16 @@
       if (!showResults.value) return;
 
       // Check if we clicked on our interactive layers (POIs, search results)
-      const layersToCheck = ['poi-layer', 'search-layer'];
+      // Only query layers that actually exist to avoid console warnings
+      const layersToCheck = ['poi-layer', 'search-layer'].filter(layerId => 
+        mbMap.value.getLayer(layerId)
+      );
+      
+      if (layersToCheck.length === 0) {
+        handleDetailDrawerClose();
+        return;
+      }
+
       const features = mbMap.value.queryRenderedFeatures(e.point, {
         layers: layersToCheck
       });
