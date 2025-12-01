@@ -183,6 +183,7 @@
 
   const dynamicLayers = [
     "poi-layer",
+    "poi-footprints-layer",
     "search-layer",
     "1920-building-layer",
     "1920-street-layer",
@@ -264,7 +265,18 @@
 
   function updatePOIFootprintHighlight() {
     // Update Mapbox paint property when highlight changes
-    if (mbMap.value && mbMap.value.getLayer('poi-footprints-layer')) {
+    // Only update if map exists and POI footprints layer is loaded
+    if (!mbMap.value || !poiFootprintsGeoJSON.value?.data?.features?.length) {
+      return;
+    }
+    
+    try {
+      // Check if layer exists before updating
+      const layer = mbMap.value.getLayer('poi-footprints-layer');
+      if (!layer) {
+        return;
+      }
+      
       const fillColor = [
         'case',
         ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
@@ -277,8 +289,12 @@
         0.9,   // More opaque when highlighted
         0.6    // Semi-transparent normally
       ];
+      
       mbMap.value.setPaintProperty('poi-footprints-layer', 'fill-color', fillColor);
       mbMap.value.setPaintProperty('poi-footprints-layer', 'fill-opacity', fillOpacity);
+    } catch (error) {
+      // Silently ignore if layer doesn't exist yet
+      console.debug('POI footprints layer not ready for highlight update');
     }
   }
 
