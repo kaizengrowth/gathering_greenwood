@@ -158,8 +158,8 @@
   // Auto-detect backend host based on deployment environment
   // Vercel: use relative URLs (triggers Vercel proxy via rewrites)
   // Linode: use direct backend URL
-  const backendHost = import.meta.env.VITE_BACKEND_HOST || 
-                      (window.location.hostname === 'gathering-greenwood.vercel.app' ? '' : 
+  const backendHost = import.meta.env.VITE_BACKEND_HOST ||
+                      (window.location.hostname === 'gathering-greenwood.vercel.app' ? '' :
                        window.location.hostname === 'localhost' ? 'http://localhost:3000' :
                        `http://${window.location.hostname}`);
   const poiGeoJSON = ref(emptyGeoJson);
