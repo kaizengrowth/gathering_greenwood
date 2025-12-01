@@ -30,15 +30,22 @@
 
   // Featured buildings with verified addresses and coordinates - shown as suggestions
   const featuredBuildings = [
-    'Stradford Hotel',
     'Vernon AME Church',
-    'Tulsa Star',
-    'Dunbar Grade School',
-    'Williams Confectionery',
-    'Gurley Hotel & Busy Bee Café',
-    'The Oklahoma Sun',
     'E.A. Hardy Furnished Rooms',
     'Nails Brothers Shoe Shop',
+    'Tulsa Star',
+    'Williams Confectionery',
+    'Stradford Hotel',
+    'Gurley Hotel & Busy Bee Café',
+    'Dunbar Grade School',
+    'The Oklahoma Sun',
+    'Williams Dreamland Theatre',
+    'Belle & Little Café',
+    'Dr. A. C. Jackson Home',
+    'Booker T. Washington High School',
+    'Red Wing Drug Store',
+    'Little Rose Beauty Salon',
+    'O.B. Mann family & Mann Brothers grocery store'
   ];
 
   const searchSuggestions = ref([...featuredBuildings]);
