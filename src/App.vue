@@ -310,6 +310,30 @@
       // Silently ignore if layer doesn't exist yet
       console.debug('POI footprints layer not ready for highlight update');
     }
+
+    // Also update search result markers to highlight the selected building
+    try {
+      const searchLayer = mbMap.value.getLayer('search-layer');
+      if (searchLayer && geoJson.value?.data?.features?.length) {
+        const circleColor = [
+          'case',
+          ['==', ['get', 'id'], highlightedBuildingId.value || -1],
+          '#FFCC00',  // Yellow when highlighted
+          '#f37021'   // Orange for all search results
+        ];
+        const circleStrokeWidth = [
+          'case',
+          ['==', ['get', 'id'], highlightedBuildingId.value || -1],
+          5,    // Thicker stroke when highlighted
+          3     // Normal stroke
+        ];
+
+        mbMap.value.setPaintProperty('search-layer', 'circle-color', circleColor);
+        mbMap.value.setPaintProperty('search-layer', 'circle-stroke-width', circleStrokeWidth);
+      }
+    } catch (error) {
+      console.debug('Search layer not ready for highlight update');
+    }
   }
 
   // Event Handlers
