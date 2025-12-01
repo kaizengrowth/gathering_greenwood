@@ -114,8 +114,8 @@
       'fill-opacity': 1
     },
     poiFootprintsPaint : {
-      'fill-color': '#f37021',   // Orange for POIs (updated via setPaintProperty)
-      'fill-opacity': 0,          // Start invisible, updated via setPaintProperty when building clicked
+      'fill-color': '#f37021',   // Orange for all POIs
+      'fill-opacity': 0.6,        // Semi-transparent, visible by default
       'fill-outline-color': '#ffffff'
     },
     burnedAreaPaint : {
@@ -290,18 +290,18 @@
         return;
       }
 
-      // Only show footprint when a specific building is highlighted
+      // All POI footprints are visible; highlighted building is brighter
       const fillColor = [
         'case',
         ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
         '#FFCC00',  // Yellow when highlighted
-        '#f37021'   // Orange (default, but opacity will be 0 when not highlighted)
+        '#f37021'   // Orange for all POIs
       ];
       const fillOpacity = [
         'case',
         ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
-        0.9,   // Opaque when highlighted
-        0      // Invisible when not highlighted (prevents orange showing on load)
+        0.9,   // More opaque when highlighted
+        0.6    // Semi-transparent for all POIs by default
       ];
 
       mbMap.value.setPaintProperty('poi-footprints-layer', 'fill-color', fillColor);
@@ -571,13 +571,7 @@
         ...poiNames
       ]);
     })
-    .then(() => {
-      utils.delayedAction(() => {
-        if (poiLayerRef.value && typeof poiLayerRef.value.fitMapToMarkers === 'function') {
-          poiLayerRef.value.fitMapToMarkers();
-        }
-      }, 1000);
-    })
+    // Don't auto-zoom to fit markers - let the initial bounding box handle the view
   };
 
   async function getBuildings() {
