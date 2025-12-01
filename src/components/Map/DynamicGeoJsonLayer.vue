@@ -177,8 +177,8 @@ const popupProps = ref(null);
       console.warn('featureFormatter is not a valid function, using default formatter.');
       props.featureFormatter = (feature) => feature;
     }
-    clickedfeature.value = props.featureFormatter(e.features[0]);
-    
+    clickedfeature.value = await props.featureFormatter(e.features[0]);
+
     // Get center coordinates based on geometry type
     const geomType = clickedfeature.value.geometry?.type;
     const coords = clickedfeature.value.geometry?.coordinates;

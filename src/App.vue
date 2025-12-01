@@ -362,10 +362,10 @@
 
       // Check if we clicked on our interactive layers (POIs, search results)
       // Only query layers that actually exist to avoid console warnings
-      const layersToCheck = ['poi-layer', 'search-layer'].filter(layerId => 
+      const layersToCheck = ['poi-layer', 'search-layer'].filter(layerId =>
         mbMap.value.getLayer(layerId)
       );
-      
+
       if (layersToCheck.length === 0) {
         handleDetailDrawerClose();
         return;
@@ -392,14 +392,39 @@
     // census1920GeoJson.value = json;
   };
 
-  function formatFeature(feature) {
+  async function formatFeature(feature) {
+    let properties = formatProperties(feature.properties, feature.source);
+    
+    // If this is a POI footprint with only building_id, fetch full building data
+    if (properties.building_id && properties.is_poi && !properties.address) {
+      try {
+        const response = await fetch(`${backendHost}/api/search?search=${encodeURIComponent(properties.name || '')}`);
+        const data = await response.json();
+        
+        // Find the building in the response
+        if (data.features && data.features.length > 0) {
+          const building = data.features.find(f => 
+            f.properties.id === properties.building_id || 
+            f.properties.location_id === properties.building_id
+          );
+          
+          if (building) {
+            // Merge the full building data with the footprint data
+            properties = { ...building.properties, ...properties };
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to fetch building details for POI:', error);
+      }
+    }
+    
     return {
-      id: feature.id || feature.properties.id || feature.properties.location_id,
+      id: feature.id || feature.properties.id || feature.properties.location_id || properties.building_id,
       source: feature.source,
       layer: feature.layer,
       type: feature.type,
       geometry: feature.geometry,
-      properties: formatProperties(feature.properties, feature.source),
+      properties: properties,
     }
   }
 
