@@ -291,7 +291,24 @@ watch(isOpen, (newValue) => {
 }
 
 /* Responsive adjustments */
+@media (min-width: 1920px) {
+  /* On ultra-wide screens, cap drawer at reasonable max width */
+  .drawer--left,
+  .drawer--right {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* On tablets, make drawer a bit wider */
+  .drawer--left,
+  .drawer--right {
+    width: 40vw !important;
+  }
+}
+
 @media (max-width: 640px) {
+  /* On mobile, drawer takes full width */
   .drawer--left,
   .drawer--right {
     width: 100% !important;
