@@ -75,7 +75,7 @@
     }
   ];
 
-  const markerPaintOptions = computed(() => ({
+  const markerPaintOptions = {
     'Search Results' : {
       'circle-color': '#f37021',
       'circle-opacity': 1,
@@ -107,18 +107,8 @@
       'fill-opacity': 1
     },
     poiFootprintsPaint : {
-      'fill-color': [
-        'case',
-        ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
-        '#FFCC00',  // Yellow when highlighted
-        '#f37021'   // Orange for all POIs
-      ],
-      'fill-opacity': [
-        'case',
-        ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
-        0.9,   // More opaque when highlighted
-        0.6    // Semi-transparent normally
-      ],
+      'fill-color': '#f37021',   // Orange for all POIs (updated via setPaintProperty)
+      'fill-opacity': 0.6,        // Semi-transparent (updated via setPaintProperty)
       'fill-outline-color': '#ffffff'
     },
     burnedAreaPaint : {
@@ -129,7 +119,7 @@
       'line-color': '#000000',
       'line-width': 2
     }
-  }));
+  };
 
   // Create an array of FAB button properties
   //  based on the custom properties defined above
@@ -264,10 +254,32 @@
   // Building Highlighting Functions
   function highlightBuilding(buildingId) {
     highlightedBuildingId.value = buildingId;
+    updatePOIFootprintHighlight();
   }
 
   function clearHighlight() {
     highlightedBuildingId.value = null;
+    updatePOIFootprintHighlight();
+  }
+
+  function updatePOIFootprintHighlight() {
+    // Update Mapbox paint property when highlight changes
+    if (mbMap.value && mbMap.value.getLayer('poi-footprints-layer')) {
+      const fillColor = [
+        'case',
+        ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
+        '#FFCC00',  // Yellow when highlighted
+        '#f37021'   // Orange for all POIs
+      ];
+      const fillOpacity = [
+        'case',
+        ['==', ['get', 'building_id'], highlightedBuildingId.value || -1],
+        0.9,   // More opaque when highlighted
+        0.6    // Semi-transparent normally
+      ];
+      mbMap.value.setPaintProperty('poi-footprints-layer', 'fill-color', fillColor);
+      mbMap.value.setPaintProperty('poi-footprints-layer', 'fill-opacity', fillOpacity);
+    }
   }
 
   // Event Handlers
